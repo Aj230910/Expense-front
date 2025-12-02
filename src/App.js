@@ -1,3 +1,4 @@
+// src/App.js
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -11,7 +12,18 @@ import ChangePin from "./pages/ChangePin";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  // app-level unlocked state (keeps UI reactive)
+
+  // ⭐ Generate deviceId on first load (IMPORTANT)
+  useEffect(() => {
+    let id = localStorage.getItem("deviceId");
+    if (!id) {
+      id = crypto.randomUUID();
+      localStorage.setItem("deviceId", id);
+      console.log("Generated new deviceId:", id);
+    }
+  }, []);
+
+  // ⭐ PIN system state
   const [unlocked, setUnlocked] = useState(
     localStorage.getItem("pinUnlocked") === "true"
   );
@@ -33,36 +45,59 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* show navbar only after unlocked */}
+      
+      {/* Show nav only when unlocked */}
       {unlocked && <Navbar onLock={onLock} />}
 
       <Routes>
-        {/* PIN flow */}
+
+        {/* PIN screens */}
         <Route
           path="/set-pin"
           element={
-            hasPin ? <Navigate to="/unlock" replace /> : <SetPin onSet={() => setHasPin(true)} />
+            hasPin
+              ? <Navigate to="/unlock" replace />
+              : <SetPin onSet={() => setHasPin(true)} />
           }
         />
+
         <Route
           path="/unlock"
-          element={hasPin ? <UnlockPin onUnlock={onUnlock} /> : <Navigate to="/set-pin" replace />}
+          element={
+            hasPin
+              ? <UnlockPin onUnlock={onUnlock} />
+              : <Navigate to="/set-pin" replace />
+          }
         />
-        <Route path="/change-pin" element={
-          unlocked ? <ChangePin /> : <Navigate to="/unlock" replace />
-        } />
 
-        {/* Protected app routes */}
+        <Route
+          path="/change-pin"
+          element={
+            unlocked
+              ? <ChangePin />
+              : <Navigate to="/unlock" replace />
+          }
+        />
+
+        {/* Protected Main App Routes */}
         <Route element={<ProtectedRoute unlocked={unlocked} />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/add" element={<AddTransaction />} />
           <Route path="/history" element={<History />} />
         </Route>
 
-        {/* fallback */}
-        <Route path="*" element={
-          unlocked ? <Navigate to="/" replace /> : (hasPin ? <Navigate to="/unlock" replace /> : <Navigate to="/set-pin" replace />)
-        } />
+        {/* Fallback routing */}
+        <Route
+          path="*"
+          element={
+            unlocked
+              ? <Navigate to="/" replace />
+              : (hasPin
+                  ? <Navigate to="/unlock" replace />
+                  : <Navigate to="/set-pin" replace />
+                )
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
