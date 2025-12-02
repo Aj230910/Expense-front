@@ -33,7 +33,7 @@ function AddTransaction() {
     e.preventDefault();
     const deviceId = localStorage.getItem("deviceId");
 
-    await axios.post("http://localhost:5000/api/transactions", {
+    await axios.post("https://expense-back-hedv.onrender.com/api/transactions", {
       title,
       amount: Number(amount || 0),
       category,
