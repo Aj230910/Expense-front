@@ -32,8 +32,8 @@ function AddTransaction() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const deviceId = localStorage.getItem("deviceId");
+await axios.post("https://expense-back-hedv.onrender.com/api/transactions/add", {
 
-    await axios.post("https://expense-back-hedv.onrender.com/api/transactions", {
       title,
       amount: Number(amount || 0),
       category,
