@@ -1,4 +1,5 @@
 // src/pages/AddTransaction.jsx
+
 import { useState } from "react";
 import {
   Box,
@@ -9,42 +10,52 @@ import {
   MenuItem,
   Button,
   Stack,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import axios from "axios";
+import API from "../api"; // 👈 Correct axios instance
 
 function AddTransaction() {
   const theme = useTheme();
   const isSm = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // choose sensible bg colors depending on theme
+  // Colors
   const inputBg = theme.palette.mode === "dark" ? "#2a2a2a" : "#fafafa";
   const cardBg = theme.palette.mode === "dark" ? "#151515" : "#ffffff";
   const inputText = theme.palette.mode === "dark" ? "#eaeaea" : "#111827";
   const labelColor = theme.palette.mode === "dark" ? "#bfc7cf" : "#6b7280";
 
+  // States
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("expense");
   const [category, setCategory] = useState("");
 
+  // ⭐ FIXED: Proper API POST
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const deviceId = localStorage.getItem("deviceId");
-await axios.post("https://expense-back-hedv.onrender.com/api/transactions/add", {
 
-      title,
-      amount: Number(amount || 0),
-      category,
-      type,
-      deviceId,
-    });
+    try {
+      await API.post("/add", {
+        title,
+        amount: Number(amount || 0),
+        category,
+        type,
+        deviceId,
+      });
 
-    alert("Transaction Added!");
-    setTitle("");
-    setAmount("");
-    setCategory("");
+      alert("Transaction Added Successfully!");
+
+      // Reset inputs
+      setTitle("");
+      setAmount("");
+      setCategory("");
+    } catch (error) {
+      console.error("Add Error:", error);
+      alert("Failed to add transaction");
+    }
   };
 
   return (
@@ -78,25 +89,27 @@ await axios.post("https://expense-back-hedv.onrender.com/api/transactions/add", 
         <CardContent>
           <Typography
             variant="h5"
-            sx={{ textAlign: "center", fontWeight: 700, mb: 3, color: inputText }}
+            sx={{
+              textAlign: "center",
+              fontWeight: 700,
+              mb: 3,
+              color: inputText,
+            }}
           >
             Add Transaction
           </Typography>
 
           <form onSubmit={handleSubmit}>
             <Stack spacing={2.5}>
+              {/* Title */}
               <TextField
                 label="Title"
                 fullWidth
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 variant="filled"
-                InputProps={{
-                  disableUnderline: true,
-                }}
-                InputLabelProps={{
-                  style: { color: labelColor },
-                }}
+                InputProps={{ disableUnderline: true }}
+                InputLabelProps={{ style: { color: labelColor } }}
                 sx={{
                   bgcolor: inputBg,
                   borderRadius: 2,
@@ -108,6 +121,7 @@ await axios.post("https://expense-back-hedv.onrender.com/api/transactions/add", 
                 }}
               />
 
+              {/* Amount */}
               <TextField
                 label="Amount (₹)"
                 type="number"
@@ -115,12 +129,8 @@ await axios.post("https://expense-back-hedv.onrender.com/api/transactions/add", 
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 variant="filled"
-                InputProps={{
-                  disableUnderline: true,
-                }}
-                InputLabelProps={{
-                  style: { color: labelColor },
-                }}
+                InputProps={{ disableUnderline: true }}
+                InputLabelProps={{ style: { color: labelColor } }}
                 sx={{
                   bgcolor: inputBg,
                   borderRadius: 2,
@@ -132,6 +142,7 @@ await axios.post("https://expense-back-hedv.onrender.com/api/transactions/add", 
                 }}
               />
 
+              {/* Type */}
               <TextField
                 label="Type"
                 select
@@ -139,12 +150,8 @@ await axios.post("https://expense-back-hedv.onrender.com/api/transactions/add", 
                 value={type}
                 onChange={(e) => setType(e.target.value)}
                 variant="filled"
-                InputProps={{
-                  disableUnderline: true,
-                }}
-                InputLabelProps={{
-                  style: { color: labelColor },
-                }}
+                InputProps={{ disableUnderline: true }}
+                InputLabelProps={{ style: { color: labelColor } }}
                 sx={{
                   bgcolor: inputBg,
                   borderRadius: 2,
@@ -159,6 +166,7 @@ await axios.post("https://expense-back-hedv.onrender.com/api/transactions/add", 
                 <MenuItem value="expense">🔴 Expense</MenuItem>
               </TextField>
 
+              {/* Category */}
               <TextField
                 label="Category"
                 select
@@ -166,12 +174,8 @@ await axios.post("https://expense-back-hedv.onrender.com/api/transactions/add", 
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
                 variant="filled"
-                InputProps={{
-                  disableUnderline: true,
-                }}
-                InputLabelProps={{
-                  style: { color: labelColor },
-                }}
+                InputProps={{ disableUnderline: true }}
+                InputLabelProps={{ style: { color: labelColor } }}
                 sx={{
                   bgcolor: inputBg,
                   borderRadius: 2,
@@ -191,6 +195,7 @@ await axios.post("https://expense-back-hedv.onrender.com/api/transactions/add", 
                 <MenuItem value="Other">📦 Other</MenuItem>
               </TextField>
 
+              {/* Submit Button */}
               <Button
                 variant="contained"
                 type="submit"

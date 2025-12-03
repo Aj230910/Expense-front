@@ -27,6 +27,10 @@
 .App-link {
   color: #2bd1ff;
 }
+button:active {
+  transform: scale(0.96);
+  transition: 0.05s;
+}
 
 @keyframes App-logo-spin {
   from {

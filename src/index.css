@@ -1,14 +1,43 @@
 body {
-  background: #427afe;
   margin: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #1a73e8 0%, #5e4eff 100%);
+  min-height: 100vh;
+  padding: 0;
 }
 
+/* Smooth card hover */
 .card-hover {
-  transition: 0.2s ease-in-out;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .card-hover:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Buttons modern */
+.MuiButton-root {
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+  text-transform: none !important;
+}
+
+/* Input fields */
+.MuiFilledInput-root {
+  border-radius: 10px !important;
+}
+
+/* DataGrid modern look */
+.MuiDataGrid-root {
+  border-radius: 15px !important;
+  background: #ffffff !important;
+  padding: 10px !important;
+}
+
+/* Navbar smoother */
+.navbar-container {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
