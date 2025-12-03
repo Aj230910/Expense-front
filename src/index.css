@@ -83,13 +83,13 @@ body {
 
 .MuiFilledInput-root {
   background: rgba(255, 255, 255, 0.08) !important;
-  color: #f1f5f9 !important;
+  color: #a8d3ff !important;
   border-radius: 12px !important;
   font-weight: 500;
 }
 
 .MuiFilledInput-input {
-  color: #f1f5f9 !important;
+  color: #96b5d4 !important;
 }
 
 .MuiInputLabel-root {
