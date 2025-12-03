@@ -1,9 +1,25 @@
 import { useEffect, useState } from "react";
-import { Grid, Card, CardContent, Typography } from "@mui/material";
 import {
-  PieChart, Pie, Cell, Tooltip, Legend,
-  LineChart, Line, XAxis, YAxis, CartesianGrid
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  Box
+} from "@mui/material";
+
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid
 } from "recharts";
+
 import API from "../api";
 
 function Dashboard() {
@@ -13,13 +29,12 @@ function Dashboard() {
   const [pieData, setPieData] = useState([]);
   const [lineData, setLineData] = useState([]);
 
-  const COLORS = ["#D32F2F", "#1976D2", "#43A047", "#FB8C00", "#9C27B0", "#00ACC1"];
+  const COLORS = ["#ef4444", "#3b82f6", "#22c55e", "#f59e0b", "#8b5cf6", "#06b6d4"];
 
-  // ⭐ FETCH ALL TRANSACTIONS WITH DEVICE ID
+  // Fetch all transactions
   const fetchAll = async () => {
     try {
       const deviceId = localStorage.getItem("deviceId");
-
       const res = await API.get(`/?deviceId=${deviceId}`);
       setTransactions(res.data);
     } catch (err) {
@@ -31,16 +46,14 @@ function Dashboard() {
     fetchAll();
   }, []);
 
-  // ⭐ CALCULATE INCOME, EXPENSE, PIE & LINE CHART
+  // Calculate all charts + totals
   useEffect(() => {
     if (transactions.length === 0) return;
 
-    // Income
     const totalIncome = transactions
       .filter(t => t.type === "income")
       .reduce((sum, t) => sum + t.amount, 0);
 
-    // Expense
     const totalExpense = transactions
       .filter(t => t.type === "expense")
       .reduce((sum, t) => sum + t.amount, 0);
@@ -48,7 +61,7 @@ function Dashboard() {
     setIncome(totalIncome);
     setExpense(totalExpense);
 
-    // ⭐ Pie Chart
+    // Pie chart
     const catMap = {};
     transactions
       .filter(t => t.type === "expense")
@@ -58,9 +71,8 @@ function Dashboard() {
 
     setPieData(Object.entries(catMap).map(([name, value]) => ({ name, value })));
 
-    // ⭐ Monthly Line Chart
+    // Line chart (monthly)
     const monthMap = {};
-
     transactions.forEach(t => {
       const dt = new Date(t.date);
       const key = dt.toLocaleString("default", { month: "short", year: "numeric" });
@@ -79,16 +91,15 @@ function Dashboard() {
   const balance = income - expense;
 
   return (
-    <div style={{ padding: "20px 30px" }}>
+    <Box sx={{ padding: "25px", color: "#f1f5f9" }} className="fade-in">
 
       {/* SUMMARY CARDS */}
-      <Grid container spacing={3}>
-
+      <Grid container spacing={4}>
         <Grid item xs={12} sm={4}>
-          <Card sx={{ borderRadius: "18px", padding: 2 }}>
+          <Card className="glass-card" sx={{ p: 3 }}>
             <CardContent>
               <Typography variant="h6">Income</Typography>
-              <Typography variant="h4" sx={{ color: "#2E7D32" }}>
+              <Typography variant="h4" sx={{ color: "#22c55e", fontWeight: 700 }}>
                 ₹ {income}
               </Typography>
             </CardContent>
@@ -96,10 +107,10 @@ function Dashboard() {
         </Grid>
 
         <Grid item xs={12} sm={4}>
-          <Card sx={{ borderRadius: "18px", padding: 2 }}>
+          <Card className="glass-card" sx={{ p: 3 }}>
             <CardContent>
               <Typography variant="h6">Expense</Typography>
-              <Typography variant="h4" sx={{ color: "#D32F2F" }}>
+              <Typography variant="h4" sx={{ color: "#ef4444", fontWeight: 700 }}>
                 ₹ {expense}
               </Typography>
             </CardContent>
@@ -107,20 +118,19 @@ function Dashboard() {
         </Grid>
 
         <Grid item xs={12} sm={4}>
-          <Card sx={{ borderRadius: "18px", padding: 2 }}>
+          <Card className="glass-card" sx={{ p: 3 }}>
             <CardContent>
               <Typography variant="h6">Balance</Typography>
-              <Typography variant="h4" sx={{ color: "#1976D2" }}>
+              <Typography variant="h4" sx={{ color: "#3b82f6", fontWeight: 700 }}>
                 ₹ {balance}
               </Typography>
             </CardContent>
           </Card>
         </Grid>
-
       </Grid>
 
       {/* PIE CHART */}
-      <Card sx={{ padding: 3, mt: 4, borderRadius: "20px" }}>
+      <Card className="glass-card" sx={{ p: 3, mt: 4 }}>
         <Typography variant="h6" sx={{ mb: 2 }}>
           Category-wise Expense
         </Typography>
@@ -137,22 +147,22 @@ function Dashboard() {
       </Card>
 
       {/* LINE CHART */}
-      <Card sx={{ padding: 3, mt: 4, borderRadius: "20px" }}>
+      <Card className="glass-card" sx={{ p: 3, mt: 4 }}>
         <Typography variant="h6" sx={{ mb: 2 }}>
           Monthly Income & Expense Trend
         </Typography>
 
         <LineChart width={700} height={300} data={lineData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
-          <YAxis />
+          <CartesianGrid strokeDasharray="3 3" stroke="#475569" />
+          <XAxis dataKey="month" stroke="#e2e8f0" />
+          <YAxis stroke="#e2e8f0" />
 
-          <Line type="monotone" dataKey="income" stroke="#2E7D32" strokeWidth={3} />
-          <Line type="monotone" dataKey="expense" stroke="#D32F2F" strokeWidth={3} />
+          <Line type="monotone" dataKey="income" stroke="#22c55e" strokeWidth={3} />
+          <Line type="monotone" dataKey="expense" stroke="#ef4444" strokeWidth={3} />
         </LineChart>
       </Card>
 
-    </div>
+    </Box>
   );
 }
 
