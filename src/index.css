@@ -10,7 +10,7 @@ body {
   font-family: "Poppins", sans-serif;
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #3b82f6 100%);
   min-height: 100vh;
-  color: #f1f5f9;
+  color: #9eceff;
   overflow-x: hidden;
 }
 
@@ -51,11 +51,11 @@ body {
 .MuiFilledInput-root {
   border-radius: 12px !important;
   background: rgba(255, 255, 255, 0.1) !important;
-  color: #e2e8f0 !important;
+  color: #9ac6ff !important;
   backdrop-filter: blur(4px);
 }
 .MuiInputLabel-root {
-  color: #cbd5e1 !important;
+  color: #97c3fa !important;
 }
 
 /* DataGrid clean */
@@ -64,7 +64,7 @@ body {
   background: rgba(255, 255, 255, 0.08) !important;
   backdrop-filter: blur(14px);
   padding: 14px !important;
-  color: #e2e8f0 !important;
+  color: #a3cbff !important;
 }
 
 .MuiDataGrid-columnHeaders {
