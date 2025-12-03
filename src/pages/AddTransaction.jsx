@@ -13,28 +13,19 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import API from "../api"; // 👈 Correct axios instance
+import API from "../api";
 
 function AddTransaction() {
   const theme = useTheme();
   const isSm = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // Colors
-  const inputBg = theme.palette.mode === "dark" ? "#2a2a2a" : "#fafafa";
-  const cardBg = theme.palette.mode === "dark" ? "#151515" : "#ffffff";
-  const inputText = theme.palette.mode === "dark" ? "#eaeaea" : "#111827";
-  const labelColor = theme.palette.mode === "dark" ? "#bfc7cf" : "#6b7280";
-
-  // States
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("expense");
   const [category, setCategory] = useState("");
 
-  // ⭐ FIXED: Proper API POST
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const deviceId = localStorage.getItem("deviceId");
 
     try {
@@ -46,14 +37,12 @@ function AddTransaction() {
         deviceId,
       });
 
-      alert("Transaction Added Successfully!");
-
-      // Reset inputs
+      alert("Transaction Added!");
       setTitle("");
       setAmount("");
       setCategory("");
     } catch (error) {
-      console.error("Add Error:", error);
+      console.error(error);
       alert("Failed to add transaction");
     }
   };
@@ -67,98 +56,80 @@ function AddTransaction() {
         justifyContent: "center",
         alignItems: "center",
         p: 3,
-        background:
-          theme.palette.mode === "dark"
-            ? "linear-gradient(135deg, #0e0e10 0%, #151515 100%)"
-            : "linear-gradient(135deg, #E3F2FD 0%, #F3E8FF 100%)",
       }}
+      className="fade-in"
     >
-      <Card
-        elevation={8}
-        sx={{
-          width: isSm ? "92%" : 480,
-          borderRadius: 3,
-          bgcolor: cardBg,
-          boxShadow:
-            theme.palette.mode === "dark"
-              ? "0 8px 30px rgba(0,0,0,0.7)"
-              : "0 6px 24px rgba(16,24,40,0.08)",
-          p: 2,
-        }}
-      >
+      <Card className="glass-card" sx={{ width: isSm ? "92%" : 480, p: 3 }}>
         <CardContent>
           <Typography
             variant="h5"
-            sx={{
-              textAlign: "center",
-              fontWeight: 700,
-              mb: 3,
-              color: inputText,
-            }}
+            sx={{ textAlign: "center", fontWeight: 700, mb: 3 }}
           >
             Add Transaction
           </Typography>
 
           <form onSubmit={handleSubmit}>
             <Stack spacing={2.5}>
-              {/* Title */}
+
+              {/* TITLE */}
               <TextField
                 label="Title"
+                variant="filled"
                 fullWidth
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                variant="filled"
                 InputProps={{ disableUnderline: true }}
-                InputLabelProps={{ style: { color: labelColor } }}
                 sx={{
-                  bgcolor: inputBg,
-                  borderRadius: 2,
                   "& .MuiFilledInput-root": {
-                    background: inputBg,
-                    color: inputText,
-                    borderRadius: 8,
+                    borderRadius: "12px",
+                    background: "rgba(255,255,255,0.1) !important",
+                    color: "#f1f5f9 !important",
+                    backdropFilter: "blur(6px)",
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "#94a3b8 !important",
                   },
                 }}
               />
 
-              {/* Amount */}
+              {/* AMOUNT */}
               <TextField
                 label="Amount (₹)"
                 type="number"
+                variant="filled"
                 fullWidth
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                variant="filled"
                 InputProps={{ disableUnderline: true }}
-                InputLabelProps={{ style: { color: labelColor } }}
                 sx={{
-                  bgcolor: inputBg,
-                  borderRadius: 2,
                   "& .MuiFilledInput-root": {
-                    background: inputBg,
-                    color: inputText,
-                    borderRadius: 8,
+                    borderRadius: "12px",
+                    background: "rgba(255,255,255,0.1) !important",
+                    color: "#f1f5f9 !important",
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "#94a3b8 !important",
                   },
                 }}
               />
 
-              {/* Type */}
+              {/* TYPE */}
               <TextField
                 label="Type"
                 select
+                variant="filled"
                 fullWidth
                 value={type}
                 onChange={(e) => setType(e.target.value)}
-                variant="filled"
                 InputProps={{ disableUnderline: true }}
-                InputLabelProps={{ style: { color: labelColor } }}
                 sx={{
-                  bgcolor: inputBg,
-                  borderRadius: 2,
                   "& .MuiFilledInput-root": {
-                    background: inputBg,
-                    color: inputText,
-                    borderRadius: 8,
+                    borderRadius: "12px",
+                    background: "rgba(255,255,255,0.1) !important",
+                    color: "#f1f5f9 !important",
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "#94a3b8 !important",
                   },
                 }}
               >
@@ -166,23 +137,23 @@ function AddTransaction() {
                 <MenuItem value="expense">🔴 Expense</MenuItem>
               </TextField>
 
-              {/* Category */}
+              {/* CATEGORY */}
               <TextField
                 label="Category"
                 select
+                variant="filled"
                 fullWidth
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                variant="filled"
                 InputProps={{ disableUnderline: true }}
-                InputLabelProps={{ style: { color: labelColor } }}
                 sx={{
-                  bgcolor: inputBg,
-                  borderRadius: 2,
                   "& .MuiFilledInput-root": {
-                    background: inputBg,
-                    color: inputText,
-                    borderRadius: 8,
+                    borderRadius: "12px",
+                    background: "rgba(255,255,255,0.1) !important",
+                    color: "#f1f5f9 !important",
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "#94a3b8 !important",
                   },
                 }}
               >
@@ -195,23 +166,15 @@ function AddTransaction() {
                 <MenuItem value="Other">📦 Other</MenuItem>
               </TextField>
 
-              {/* Submit Button */}
+              {/* SUBMIT BUTTON */}
               <Button
-                variant="contained"
                 type="submit"
+                variant="contained"
                 fullWidth
                 sx={{
                   py: 1.6,
+                  mt: 1,
                   fontWeight: 700,
-                  borderRadius: 2,
-                  background:
-                    theme.palette.mode === "dark"
-                      ? "linear-gradient(90deg,#2563eb,#60a5fa)"
-                      : "linear-gradient(90deg,#1976D2,#42A5F5)",
-                  boxShadow:
-                    theme.palette.mode === "dark"
-                      ? "0 6px 18px rgba(37,99,235,0.25)"
-                      : "0 6px 18px rgba(66,165,245,0.18)",
                 }}
               >
                 Add
