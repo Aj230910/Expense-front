@@ -1,43 +1,81 @@
-body {
+/* Global Reset */
+* {
   margin: 0;
-  font-family: "Poppins", sans-serif;
-  background: linear-gradient(135deg, #1a73e8 0%, #5e4eff 100%);
-  min-height: 100vh;
   padding: 0;
+  box-sizing: border-box;
 }
 
-/* Smooth card hover */
-.card-hover {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+/* Premium background */
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #3b82f6 100%);
+  min-height: 100vh;
+  color: #f1f5f9;
+  overflow-x: hidden;
 }
 
-.card-hover:hover {
+/* Smooth fade animation */
+.fade-in {
+  animation: fadeIn 0.6s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* GLASS CARD STYLE */
+.glass-card {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-radius: 20px !important;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25) !important;
+  transition: 0.25s ease;
+}
+.glass-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18) !important;
 }
 
-/* Buttons modern */
+/* Buttons */
 .MuiButton-root {
   font-weight: 700 !important;
-  border-radius: 10px !important;
+  border-radius: 12px !important;
+  padding: 10px 14px !important;
   text-transform: none !important;
+  backdrop-filter: blur(8px);
+  background: linear-gradient(90deg, #2563eb, #3b82f6) !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4) !important;
 }
 
-/* Input fields */
+/* Input fields modern */
 .MuiFilledInput-root {
-  border-radius: 10px !important;
+  border-radius: 12px !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #e2e8f0 !important;
+  backdrop-filter: blur(4px);
+}
+.MuiInputLabel-root {
+  color: #cbd5e1 !important;
 }
 
-/* DataGrid modern look */
+/* DataGrid clean */
 .MuiDataGrid-root {
-  border-radius: 15px !important;
-  background: #ffffff !important;
-  padding: 10px !important;
+  border-radius: 20px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(14px);
+  padding: 14px !important;
+  color: #e2e8f0 !important;
 }
 
-/* Navbar smoother */
+.MuiDataGrid-columnHeaders {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-radius: 12px !important;
+}
+
+/* Navbar Glass */
 .navbar-container {
-  backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.1) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 12px 20px;
 }
